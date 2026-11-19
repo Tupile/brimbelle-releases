@@ -29,6 +29,7 @@ The firmware was developed with substantial help from AI coding assistants.
 | Speaker | One 8 ohm full-range driver on OUTL (a Visaton FRS 8 M on the bench). A second one on OUTR for stereo |
 | Supply | 19 V on the barrel jack. USB alone is not a usable supply |
 | Knob | KY-040 rotary encoder: CLK on IO12, DT on IO13, SW on IO5 |
+| Enclosure | 3D printed, model on [MakerWorld](https://makerworld.com/en/models/3643482-wi-fi-speaker-for-amped-esp32-s3-visaton-frs-8-m) |
 
 The full pin map, the amplifier notes and the bench measurements are in
 docs/hardware.md.
