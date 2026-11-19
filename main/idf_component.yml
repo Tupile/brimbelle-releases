@@ -1,0 +1,32 @@
+# External dependencies for Brimbelle, resolved by the IDF component manager.
+dependencies:
+  idf:
+    version: ">=6.1"
+
+  # cJSON (ESP-IDF 6 removed its built-in json component).
+  espressif/cjson:
+    version: "^1.7.19"
+
+  # LittleFS for config.json in internal flash.
+  joltwallet/littlefs:
+    version: "^1.23.1"
+
+  # AAC-LC decoder (AAC web radio, ADTS or MP4). MP3 and FLAC are decoded by
+  # the vendored dr_mp3 / dr_flac in components/decode, Ogg by this component.
+  espressif/esp_audio_codec:
+    version: "^2.6.2"
+
+  # mDNS for brimbelle-XXXX.local and Sendspin discovery.
+  espressif/mdns:
+    version: "^1.15.1"
+
+  # Sendspin player protocol. Highest-risk dependency: pre-1.0 and tracks the
+  # Music Assistant protocol. Pinned to an exact version on purpose; the root
+  # CMakeLists.txt applies patches/sendspin-cpp-0.8.0-esp-httpd-stack.patch.
+  sendspin/sendspin-cpp:
+    version: "==0.8.0"
+
+  # MQTT client for the Home Assistant button entity (ESP-IDF 6 moved esp-mqtt
+  # out of the tree).
+  espressif/mqtt:
+    version: "^1.1.0"

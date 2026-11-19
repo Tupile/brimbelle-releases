@@ -1,0 +1,78 @@
+// board: device identity. Copied from Bugne without the shared I2C bus (the
+// PCM5100A has no control interface).
+#include "board.h"
+#include "board_pins.h"
+
+#include <stdio.h>
+#include <stdint.h>
+#include <stddef.h>
+
+#include "esp_check.h"
+#include "esp_log.h"
+#include "esp_mac.h"
+#include "esp_system.h"
+
+static const char *TAG = "board";
+
+static char s_device_id[5] = "0000";     // 4 hex chars from the MAC, plus null
+static char s_ap_password[13] = "000000000000";  // 12 hex chars, plus null
+
+// FNV-1a 64-bit hash, used to derive a stable per-device AP password from the
+// full MAC. Not cryptographic: the MAC is not secret, this only makes each unit
+// unique instead of sharing one hardcoded password.
+static uint64_t fnv1a64(const uint8_t *data, size_t len)
+{
+    uint64_t h = 1469598103934665603ULL;
+    for (size_t i = 0; i < len; i++) {
+        h ^= data[i];
+        h *= 1099511628211ULL;
+    }
+    return h;
+}
+
+esp_err_t board_init(void)
+{
+    uint8_t mac[6] = {0};
+    ESP_RETURN_ON_ERROR(esp_read_mac(mac, ESP_MAC_WIFI_STA), TAG, "failed to read MAC");
+    snprintf(s_device_id, sizeof(s_device_id), "%02X%02X", mac[4], mac[5]);
+
+    uint64_t h = fnv1a64(mac, sizeof(mac));
+    snprintf(s_ap_password, sizeof(s_ap_password), "%012llX",
+             (unsigned long long)(h & 0xFFFFFFFFFFFFULL));
+
+    ESP_LOGI(TAG, "device id %s (I2S BCLK=%d WS=%d DOUT=%d, amp EN=%d)", s_device_id,
+             BOARD_I2S_BCLK_GPIO, BOARD_I2S_WS_GPIO, BOARD_I2S_DOUT_GPIO, BOARD_AMP_EN_GPIO);
+    return ESP_OK;
+}
+
+const char *board_device_id(void)
+{
+    return s_device_id;
+}
+
+const char *board_ap_password(void)
+{
+    return s_ap_password;
+}
+
+const char *board_reset_reason_name(void)
+{
+    switch (esp_reset_reason()) {
+    case ESP_RST_POWERON:   return "POWERON";
+    case ESP_RST_EXT:       return "EXT";
+    case ESP_RST_SW:        return "SW";
+    case ESP_RST_PANIC:     return "PANIC";
+    case ESP_RST_INT_WDT:   return "INT_WDT";
+    case ESP_RST_TASK_WDT:  return "TASK_WDT";
+    case ESP_RST_WDT:       return "WDT";
+    case ESP_RST_DEEPSLEEP: return "DEEPSLEEP";
+    case ESP_RST_BROWNOUT:  return "BROWNOUT";
+    case ESP_RST_SDIO:      return "SDIO";
+    case ESP_RST_USB:       return "USB";
+    case ESP_RST_JTAG:      return "JTAG";
+    case ESP_RST_EFUSE:     return "EFUSE";
+    case ESP_RST_PWR_GLITCH: return "PWR_GLITCH";
+    case ESP_RST_CPU_LOCKUP: return "CPU_LOCKUP";
+    default:                return "UNKNOWN";
+    }
+}

@@ -1,0 +1,26 @@
+name: Music Assistant single stream
+version: "0.1.2"
+slug: ma_single_stream
+description: Keeps a single YouTube Music stream in Music Assistant by grouping the players that would start a second one
+url: https://github.com/Tupile/brimbelle-releases
+arch:
+  - amd64
+  - aarch64
+init: false
+startup: application
+boot: auto
+homeassistant_api: true
+options:
+  ma_url: http://172.30.32.1:8095
+  ma_token: ""
+  brimbelle_player_id: ""
+  button_entity: event.brimbelle_xxxx_button
+  button_window: 15
+  dry_run: true
+schema:
+  ma_url: str
+  ma_token: password
+  brimbelle_player_id: str
+  button_entity: str
+  button_window: int
+  dry_run: bool

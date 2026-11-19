@@ -1,0 +1,28 @@
+# ESP-IDF build output
+build/
+
+# Managed components fetched from the registry (resolved from idf_component.yml).
+# dependencies.lock is tracked so a release builds the versions that were tested.
+managed_components/
+
+# Generated sdkconfig (sdkconfig.defaults is tracked instead)
+sdkconfig
+sdkconfig.old
+
+# Python
+__pycache__/
+*.pyc
+
+# Editor and OS
+.vscode/
+.DS_Store
+
+# Host test binaries
+test/host/build/
+
+# Local logs, tokens and flash bundles
+device.log
+device_build.log
+.*_token
+*.token
+brimbelle-flash-*.zip
