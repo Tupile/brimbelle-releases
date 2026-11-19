@@ -116,13 +116,33 @@ Each release carries two files:
 1. Power the board from the barrel jack.
 2. With no Wi-Fi stored, the speaker raises the hotspot
    `Brimbelle-Setup-XXXX`. Its password is specific to each board and is
-   printed in the boot log, on the USB console (`idf.py monitor` or any
-   serial terminal).
+   printed in the boot log, on the USB console (see below).
 3. Join the hotspot and open <http://192.168.4.1/>. Add your Wi-Fi network.
 4. The speaker joins the network. Open `http://brimbelle-XXXX.local/` to
    set a password for the page, add web radios, name the speaker and set the
    MQTT broker.
 5. In Music Assistant, the speaker appears as a Sendspin player.
+
+### Reading the hotspot password
+
+The boot log has one line with the name and the password of the hotspot:
+
+    net: no stored credentials, provisioning AP up: SSID Brimbelle-Setup-XXXX, password YYYYYYYYYYYY
+
+After an install with the web flasher, the same page can show it:
+
+1. Keep the board plugged in. Click "Connect" again and pick the port of the
+   board.
+2. Choose "Logs & Console".
+3. Click "Reset Device": the speaker restarts and prints its boot log. The
+   line comes a few seconds after the start.
+
+Without the web flasher, any serial terminal on the USB port shows the same
+log, for example `idf.py monitor`. Press the reset button of the board to
+see the boot again.
+
+The line is only printed while no Wi-Fi network is stored. The password never
+changes for a given board, so it is worth writing down.
 
 ## Build from source
 
@@ -166,7 +186,8 @@ development history.
 - Stereo with two speakers on one board is implemented but was not tested
   with two speakers.
 - The longest runs checked are a few hours. A 24 h soak was not done.
-- The hotspot password is only shown on the USB console.
+- The hotspot password is only shown on the USB console, there is no label
+  or screen to read it from.
 
 ## License
 
