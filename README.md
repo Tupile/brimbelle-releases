@@ -14,6 +14,11 @@ speaker updates itself over Wi-Fi. It is a "Bugne without the screen": the
 firmware reuses components of
 [Bugne](https://github.com/Tupile/bugne-releases), see UPSTREAM.md.
 
+<p>
+<img src="docs/photo_side.jpg" alt="Brimbelle speaker, three-quarter view" height="300">
+<img src="docs/photo_front.jpg" alt="Brimbelle speaker, front grille and knob" height="300">
+</p>
+
 The firmware was developed with substantial help from AI coding assistants.
 
 ## Hardware
